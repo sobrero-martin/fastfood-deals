@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FastFoodDeals.Api/FastFoodDeals.Api.csproj" />
+    <Project Path="src/FastFoodDeals.Core/FastFoodDeals.Core.csproj" />
+    <Project Path="src/FastFoodDeals.Infrastructure/FastFoodDeals.Infrastructure.csproj" />
+  </Folder>
+</Solution>
