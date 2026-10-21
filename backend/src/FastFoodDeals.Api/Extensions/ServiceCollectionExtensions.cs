@@ -1,15 +1,13 @@
 using FastFoodDeals.Core.Interfaces;
 using FastFoodDeals.Infrastructure.Data;
 using FastFoodDeals.Infrastructure.Repositories;
+using FastFoodDeals.Infrastructure.Scrapers;
 using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodDeals.Api.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    /// <summary>
-    /// Registra la conexión a MySQL (Pomelo) y el AppDbContext.
-    /// </summary>
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection")
@@ -23,18 +21,19 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    /// <summary>
-    /// Registra todos los repositorios del dominio para inyección de dependencias.
-    /// </summary>
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IDealRepository, DealRepository>();
         return services;
     }
 
-    /// <summary>
-    /// Configura la política CORS para permitir solicitudes del frontend React en desarrollo.
-    /// </summary>
+    public static IServiceCollection AddScrapers(this IServiceCollection services)
+    {
+        services.AddHttpClient<McDonaldsScraper>();
+        services.AddScoped<McDonaldsScraper>();
+        return services;
+    }
+
     public static IServiceCollection AddFrontendCors(this IServiceCollection services)
     {
         services.AddCors(options =>

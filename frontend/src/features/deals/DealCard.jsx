@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Check, ExternalLink, Tag } from 'lucide-react';
 import { formatCurrency, formatDiscount } from '../../utils/formatters';
+import { recordDealClick } from '../../services/dealsService';
 
 export function DealCard({ deal }) {
   const [copied, setCopied] = useState(false);
@@ -14,6 +15,13 @@ export function DealCard({ deal }) {
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('No se pudo copiar el código:', err);
+    }
+  };
+
+  const handleRedeemClick = () => {
+    // Registra la telemetría del clic en segundo plano en MySQL
+    if (deal.id) {
+      recordDealClick(deal.id);
     }
   };
 
@@ -87,7 +95,7 @@ export function DealCard({ deal }) {
                 className={`flex-1 py-2.5 px-3 rounded-xl font-semibold text-xs transition-all duration-150 flex items-center justify-center gap-1.5 border ${
                   copied
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-                    : 'bg-gray-50 text-gray-800 border-gray-200 hover:bg-gray-100 active:scale-95'
+                    : 'bg-gray-50 text-gray-800 border-gray-200 hover:bg-gray-100 active:scale-95 cursor-pointer'
                 }`}
               >
                 {copied ? (
@@ -109,7 +117,8 @@ export function DealCard({ deal }) {
                 href={deal.redemptionUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs bg-red-600 hover:bg-red-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95 text-center"
+                onClick={handleRedeemClick}
+                className="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs bg-red-600 hover:bg-red-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95 text-center cursor-pointer"
               >
                 <span>Canjear</span>
                 <ExternalLink size={13} />

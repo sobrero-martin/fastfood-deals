@@ -47,4 +47,16 @@ public class DealsController : ControllerBase
         if (deal is null) return NotFound();
         return Ok(deal);
     }
+
+    /// <summary>
+    /// POST /api/deals/{id}/click
+    /// Registra un evento de telemetría cuando el usuario hace clic en "Canjear".
+    /// </summary>
+    [HttpPost("{id:guid}/click")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> RecordClick(Guid id)
+    {
+        await _dealRepository.RecordClickAsync(id);
+        return NoContent();
+    }
 }

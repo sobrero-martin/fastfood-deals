@@ -116,4 +116,16 @@ public class DealRepository : IDealRepository
         if (stale.Count > 0)
             await _context.SaveChangesAsync();
     }
+
+    public async Task RecordClickAsync(Guid dealId)
+    {
+        var click = new DealClick
+        {
+            DealId = dealId,
+            ClickedAtUtc = DateTime.UtcNow
+        };
+
+        await _context.DealClicks.AddAsync(click);
+        await _context.SaveChangesAsync();
+    }
 }

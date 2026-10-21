@@ -28,7 +28,11 @@ public interface IDealRepository
 
     /// <summary>
     /// Marca como inactivos todos los cupones de una marca que no estén en la lista de IDs externos provistos.
-    /// Usado por el scraper para desactivar ofertas que ya no existen en la fuente.
     /// </summary>
     Task DeactivateStaleDealsAsync(string brand, IEnumerable<string> activeExternalIds);
+
+    /// <summary>
+    /// Registra un evento de telemetría cuando el usuario hace clic en "Canjear".
+    /// </summary>
+    Task RecordClickAsync(Guid dealId);
 }
